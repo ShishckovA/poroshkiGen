@@ -1,24 +1,26 @@
 from textgenrnn import textgenrnn
 from random import random
 
+name = "poroshok_generator1"
+
 textgen = textgenrnn(
-    weights_path="./poroshok_generator_weights.hdf5",
-    vocab_path="./poroshok_generator_vocab.json",
-    config_path="./poroshok_generator_config.json")
+    weights_path="./models/%s_weights.hdf5" % name,
+    vocab_path="./models/%s_vocab.json" % name,
+    config_path="./models/%s_config.json" % name)
 
-k = 20
-name = "out.txt"
-file = "./generated_texts/" + name
+k = 200
+outname = "out.txt"
+filename = "./generated_texts/" + outname
 
-textgen.generate_to_file(file, n=k, temperature=[random() for i in range(k)], progress=True)
+textgen.generate_to_file(filename, n=k, temperature=[random() for i in range(k)], progress=True)
 
-f = open(file, "r")
+f = open(filename, "r")
 txt = f.read()
 f.close()
 
 txt = txt.replace("\n", "\n\n")
 txt = txt.replace("\\n", "\n")
 
-f = open(file, "w")
+f = open(filename, "w", encoding="utf-8")
 print(txt, file=f)
 f.close()
